@@ -3,7 +3,7 @@
 //
 #include "Network.h"
 
-void Network::Initilize() {
+void Network::initilize() {
     boost::asio::io_service io_service;
 
     //listen for new connection

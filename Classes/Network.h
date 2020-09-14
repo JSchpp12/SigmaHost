@@ -14,7 +14,7 @@ using ip::tcp;
 
 class Network {
 public:
-    void Initilize(); //create network object
+    void initilize(); //create network object
 
 private:
     std::string _read(tcp::socket & socket); //read a message sent from the client

@@ -6,7 +6,7 @@
 
 int main() {
     Network _network;
-    _network.Initilize();
+    _network.initilize();
 
     return 0;
 
