@@ -6,17 +6,20 @@
 void Network::initilize() {
     boost::asio::io_service io_service;
 
-    //listen for new connection
-    tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), 1234));
-
     //create socket connection
     tcp::socket socket(io_service);
 
+    //listen for new connection
+    tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), 11000));
+
     //waiting for connection
+    std::cout << "Awaiting connection\n";
     acceptor.accept(socket);
 
     //read operation
+    std::cout << "Message recieved\n"; 
     std::string message = _read(socket);
+    std::cout << message;
 
     //write operation
     _send(socket, "Hello from Server!");
