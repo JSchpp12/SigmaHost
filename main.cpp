@@ -3,10 +3,12 @@
 #include <iostream>
 #include <string>
 #include "Classes/Network.h"
+#include "Classes/Message.h"
 
 int main() {
     Network _network;
-    _network.initilize();
+    Message message("REQUEST time");
+    //_network.initilize();
 
     return 0;
 
