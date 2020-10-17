@@ -6,10 +6,9 @@
 #include "Classes/Message.h"
 
 int main() {
-    Network _network;
-    Message message("REQUEST time");
     //_network.initilize();
-
+    Network _network;
+    _network.Run();
     return 0;
 
     //boost.asio might be a library that we can try

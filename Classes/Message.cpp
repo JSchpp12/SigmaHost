@@ -5,44 +5,54 @@
 #include <iostream>
 #include "Message.h"
 
-Message::Message(std::string inMessage){
+Message::Message(std::string inMessage) {
     message = inMessage;
     _processMessage();
 }
 
 bool Message::IsCommand() {return msgType.isCommand;}
 bool Message::IsRequest() {return msgType.isRequest;}
-
+bool Message::IsValid()   {return msgType.isValid;}
+bool Message::IsHello() {return msgType.isHello;}
 void Message::_processMessage() {
-
-    if(_isRequest()){
-        _removeBefore(message, "REQUEST");
-    }else if (_isCommand()){
-
-    }else{
-        std::cout << "Unknown Message type received";
-    }
-}
-
-bool Message::_isRequest(){
-    std::size_t found = message.find("REQUEST");
-    //check if the message is a request
-    if (found != std::string::npos){
+    if (_contains(&message, "HELLO")){
+        msgType.isHello = true;
+        msgType.isValid = true;
+    } else if(_contains(&message, "REQUEST")) {
+        messageCore = _removeBefore(message, "REQUEST:");
         msgType.isRequest = true;
-        return true;
-    }else{
-        return false;
+        msgType.isValid = true;
+        _processRequest();
+    }else if(_contains(&message, "COMMAND")) {
+        messageCore = _removeBefore(message,"COMMAND:");
+        msgType.isCommand = true;
+        msgType.isValid = true;
+    }else {
+        std::cout << "Unknown Message type received";
+        msgType.isValid = false;
     }
 }
 
-bool Message::_isCommand(){
-
+void Message::_processRequest() {
+    if(_contains(&messageCore, "time")) {
+        request.isTime = true;
+    }else{
+        msgType.isValid = false;
+    }
 }
 
-std::string Message::_removeBefore(std::string targetString, std::string removeTarget){
+std::string Message::_removeBefore(std::string targetString, std::string removeTarget) {
     std::size_t found = targetString.find(removeTarget);
     if (found != std::string::npos){
         targetString.erase(found, found+removeTarget.size());
     }
     return targetString;
+}
+
+bool Message::_contains(std::string* targetString, std::string testString) {
+    std::size_t found = targetString->find(testString);
+    if (found != std::string::npos)
+        return true;
+    else
+        return false;
 }
