@@ -10,6 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
+#include "Message.h"
 
 using boost::asio::ip::tcp;
 
@@ -28,11 +29,13 @@ public:
 private:
     tcp::socket socket_;
     std::string message_;
+    boost::asio::streambuf incomingMessage_;
+    bool continueConnection_ = true;
 
     tcp_connection(boost::asio::io_context& io_context)
             : socket_(io_context){};
-    void handle_write(const boost::system::error_code& /*error*/,
-                      size_t /*bytes_transferred*/);
+    void handle_write(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/); //event handler that is called when a write is complete
+    void handle_read(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/); //event handler that is called when a read is complete
 };
 
 
