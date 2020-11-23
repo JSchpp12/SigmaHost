@@ -34,7 +34,7 @@ void Message::_processMessage() {
 }
 
 void Message::_processRequest() {
-    if(_contains(&messageCore, "time")) {
+    if(_contains(&messageCore, "TIME")) {
         request.isTime = true;
     }else{
         msgType.isValid = false;

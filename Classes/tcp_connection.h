@@ -6,6 +6,9 @@
 #define SIGMAHOST_TCP_CONNECTION_H
 
 #include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <chrono>
 #include <boost/bind/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -24,18 +27,24 @@ public:
     {
         return socket_;
     }
-
     void start();
 private:
+    struct serverAction{
+        std::string message;
+        bool sendMessage;
+    };
     tcp::socket socket_;
     std::string message_;
     boost::asio::streambuf incomingMessage_;
-    bool continueConnection_ = true;
+    bool completedHandshake = false;
 
+    void sendMessage(std::string outboundMessage); //send a messsage to the client
     tcp_connection(boost::asio::io_context& io_context)
             : socket_(io_context){};
     void handle_write(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/); //event handler that is called when a write is complete
     void handle_read(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/); //event handler that is called when a read is complete
+    std::string generateSystemTime(); //generate the cunt system time as a string
+    std::string padString(int pad, int input); //pad a string with 0s
 };
 
 
