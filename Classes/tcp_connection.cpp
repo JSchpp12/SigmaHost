@@ -67,7 +67,7 @@ std::string tcp_connection::generateSystemTime(){
     //get nano and milliseconds
     struct timeval start_time;
     gettimeofday(&start_time, NULL);
-    strstream << start_time.tv_usec;
+    strstream << std::setfill('0') << std::setw(6) << start_time.tv_usec;
     strstream >> millisecond;
 
     //get larger date information
